@@ -1,8 +1,9 @@
 <?php
 
 use Livewire\Volt\Component;
+use Livewire\Attributes\Layout;
 
-new class extends Component {
+new #[Layout('layouts.app')] class extends Component {
     public $title;
     public $body;
     public $recipient;
@@ -25,22 +26,27 @@ new class extends Component {
             ->create($validated);
         $this->reset();
         $this->submitting = false;
-        return $this->redirect(route('notes.index'), navigate: true);
+        $this->redirect(route('notes.index'));
     }
 }; ?>
 
-<div>
-    <x-card>
-        <form wire:submit='submit' class="space-y-4 ">
-            <x-input wire:model='title' label="Title" />
-            <x-textarea wire:model='body' label="Body" placeholder="Type your note" />
-            <x-input icon="mail" wire:model='recipient' label="Recipient" type="email"
-                placeholder="yourfriend@email.com" />
-            <x-input icon="calendar" wire:model='send_date' type='date' label="Send Date" />
-            <x-button primary right-icon="calendar" spinner wire:click='submit'>
-                <span wire:loading wire:target="submit">Submitting...</span>
-                <span wire:loading.remove wire:target="submit">Schedule Note</span>
-            </x-button>
-        </form>
-    </x-card>
+<div class="py-12">
+    <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
+        <x-card>
+            <form wire:submit='submit' class="space-y-4 ">
+                <x-input wire:model='title' label="Title" />
+                <x-textarea wire:model='body' label="Body" placeholder="Type your note" />
+                <x-input icon="mail" wire:model='recipient' label="Recipient" type="email"
+                    placeholder="yourfriend@email.com" />
+                <x-input icon="calendar" wire:model='send_date' type='date' label="Send Date" />
+                <div class="flex justify-between">
+                    <x-button :href="route('notes.index')" flat slate icon="arrow-left" wire:navigate>Back</x-button>
+                    <x-button primary right-icon="calendar" spinner type='submit'>
+                        <span wire:loading wire:target="submit">Submitting...</span>
+                        <span wire:loading.remove wire:target="submit">Schedule Note</span>
+                    </x-button>
+                </div>
+            </form>
+        </x-card>
+    </div>
 </div>

@@ -15,6 +15,15 @@ class Note extends Model
         'id'
     ];
 
+    protected $casts = [
+        'is_published' => 'boolean'
+    ];
+
+    public function scopePublished($query)
+    {
+        return $query->where('is_published', '=', true);
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
